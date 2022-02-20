@@ -1,0 +1,4 @@
+see also
+    https://github.com/microsoft/vscode-mssql/blob/main/syntaxes/sql.configuration.json
+    this is from an mssql extension for vscode
+    this *might* be a valid monarch (language) definition

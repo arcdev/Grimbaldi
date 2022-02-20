@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" data-name="vs/editor/editor.main" href="../node_modules/monaco-editor/min/vs/editor/editor.main.css" />
+</head>
+
+<body>
+	<h2>Monaco Editor Sync Loading Sample</h2>
+	<div id="container" style="width: 800px; height: 600px; border: 1px solid grey; float:left;"></div>
+
+	<div id="raw-language-container" style="width:40%; float:left; border: 1px solid grey; float:left; margin-left: 20px; height: 600px;">
+		<pre id="raw-language">
+
+		</pre>
+	</div>
+
+	<script>
+		var require = { paths: { vs: '../node_modules/monaco-editor/min/vs' } };
+	</script>
+	<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+	<script src="../node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+	<script src="../node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
+
+	<pre style="display:none;" id="editor-sample">
+use yourDBhere
+go;
+
+select top 10 distinct *
+from [your].[table] WITH NOLOCK
+
+-- some comment here
+/*
+some larger comments here
+*/
+
+DROP IF EXISTS usp_Proc;
+GO;	
+		</pre>
+
+	<script>
+		function updateRawLanguage(editor){
+			var elRawlang = document.getElementById("raw-language");
+			elRawlang.innerHTML = editor.getValue();
+		}
+
+		var element = document.getElementById("editor-sample");
+		var code = element.innerHTML
+		var editor = monaco.editor.create(document.getElementById('container'), {
+			value: code,
+			language: 'sql'
+		});
+		//window.editor = editor;
+
+		updateRawLanguage(editor);
+		
+		editor.getModel().onDidChangeContent(evt => {
+			updateRawLanguage(editor);
+		});
+
+	</script>
+</body>
+
+</html>
